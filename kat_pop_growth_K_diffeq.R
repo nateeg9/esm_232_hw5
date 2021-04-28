@@ -5,13 +5,10 @@
 #' @return instantaneous change in population (growth/decline)
 #' @param T  period of growth (years)
 #'
-kat_pop_growth_K_diffeq = function(T, P0,parms=c(r, K)) {
+kat_pop_growth_K_diffeq = function(T, P,parms=c(r, K)) {
   # calculation of instantaneous change in population
-    dPdT = r*P0*(1-P0/K)
-  # check to see if greater than carrying capacity
-    if (P0 > K) {
-      P0 = K
-    }
+    dPdT = parms$r*P*(1-P/parms$K)
+
   # return the instantaneous change
     return(list(dPdT))
 }
