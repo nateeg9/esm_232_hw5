@@ -1,0 +1,43 @@
+
+---
+title: "ESM232-Assignment5"
+author: "Maggie Brickner, Nathalie Eegholm, Kat Leigh"
+date: "4/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(purrr)
+library(ggplot2)
+library(deSolve)
+
+```
+
+```{r}
+
+source("/Users/neegholm/Documents/ESM232_S21/Rmaterials April28-20210428/dexppop_A5.R")
+
+
+dexppop_A5
+
+# define length of time to run ode
+years = seq(from=1, to=50, by=1)
+
+#define initial conditions and growth rate (r) and carrying capacity 
+initialrabbits=1
+alternativeparms = list(r=0.05, carry_capacity=20)
+
+# run ode
+resultsA5=ode(y=initialrabbits, times=years, func=dexppop_A5,parms=alternativeparms)
+
+
+
+# check output
+resultsA5[50,]
+colnames(resultsA5)=c("year","P_parmA5")
+
+# plot
+ggplot(as.data.frame(resultsA5), aes(year,P_parmA5))+geom_point()+labs(y="Population", "years")
+```
