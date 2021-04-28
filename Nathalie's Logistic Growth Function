@@ -1,0 +1,18 @@
+
+#'  Logistic Population Growth, Assignment 5
+#' @param time time
+#' @param P initial population
+#' @param r intrinsic growth rate 
+#' @param K carrying capacity
+#' @return derivative of population with time 
+#' @examples use with ode solver
+
+
+dexppop_A5 = function(time, P, parms) {
+  
+  # compute rate of change of population
+  dPdt = parms$r*P* (1-(P/parms$carry_capacity))
+  
+
+  return(list(dPdt))
+}
