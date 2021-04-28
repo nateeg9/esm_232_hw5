@@ -1,0 +1,46 @@
+---
+title: "esm_232_assign5_kat_leigh"
+author: "Kat Leigh"
+date: "4/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(purrr)
+library(here)
+library(patchwork)
+library(deSolve)
+source(here('kat_pop_growth_K_diffeq.R'))
+```
+Another way to model carrying capacity is to assume that dP/dT = r*P*(1-P/K)  where K is carrying capacity.  Implement this differential equation as a function.  Then run the model using the ODE solver, with the following:  r = 0.05, K = 20, initial P is 1
+
+graph results for time from 1 to 50 years.
+
+the population at year 50 should be 7.576973
+
+```{r}
+# set initial values
+r <- 0.05
+K <- 20
+P0 <- 1
+Tf <- 50 # length of time (final year)
+
+# create a sequence for each year
+years = seq(from=1, to=Tf, by=1)
+
+# run the solver
+Ptime = ode(y=P0, times=years, func=kat_pop_growth_K_diffeq,parms=c(r=r,K=K))
+head(Ptime)
+colnames(Ptime)=c("year","P")
+
+# extract just the data frame for plotting
+ggplot(as.data.frame(Ptime), aes(year,P))+geom_point()+labs(y="Population", "years")
+
+# check answer
+as.data.frame(Ptime)$P[50]
+
+```
+
